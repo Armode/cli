@@ -519,15 +519,14 @@ func patchReview(cmd *cobra.Command) (*api.PullRequestReviewInput, error) {
 	}
 
 	reviewData, err := reviewSurveyPreBody(cmd, reviewBody)
-	reviewData.Body = trimBody(reviewData.Body)
-
 	if err != nil {
 		return nil, err
 	}
-	if reviewData == nil && err == nil {
+	if reviewData == nil {
 		fmt.Fprint(out, "Discarding.\n")
 		return nil, nil
 	}
+	reviewData.Body = trimBody(reviewData.Body)
 
 	fmt.Fprintln(out, "would actually submit, here~")
 
